@@ -6,7 +6,7 @@
 /*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:14:17 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/05 22:52:34 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/07 18:21:43 by ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@ typedef struct	s_ptr
 	double	z;
 }				t_ptr;
 
+unsigned int	sum_color(int color1, int color2);
+unsigned int	rgba(t_uchar r, t_uchar g, t_uchar b, t_uchar alpha);
+int				 ft_abs(int i);
 
 #endif
