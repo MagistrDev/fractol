@@ -10,7 +10,7 @@ LIBS = -lft -lm
 
 LIB_DIR = -L./libft
 
-SRCS = main.c sub.c
+SRCS = main.c sub.c control.c
 
 MINILIBX = -L/usr/local/lib/ -I/usr/local/include -framework OpenGL -framework AppKit -lmlx
 

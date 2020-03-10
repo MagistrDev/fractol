@@ -6,7 +6,7 @@
 /*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:09:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/09 21:08:42 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/10 22:43:58 by ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ int Cw = 1920, Ch = 1080;
 double VxMin = -2, VxMax = 1;
 double VyMin = -1, VyMax = 1;
 
+
 void	uput_pixel(int *img, int x, int y, int color)
 {
-	if ((x < Cw) && (y < Ch))
+	if ((x >= 0 && x < Cw) && (y >= 0 && y < Ch))
  		img[y * Cw + x] = color;
 }
 
@@ -32,7 +33,6 @@ void	put_pixel(int *img, int x, int y, int color)
 {
 	uput_pixel(img, x + (Cw / 2), y + (Ch / 2), color);
 }
-
 
 // c = x + i * y;
 // Z(0) = 0;
@@ -51,9 +51,8 @@ typedef struct	s_complex
 
 //void grid (int *img,)
 
-int iterZ(double re, double im)
+int iterZ(double re, double im, int n)
 {
-	int n;
 	int r,g,b;
 	int iter;
 	double c;
@@ -62,7 +61,6 @@ int iterZ(double re, double im)
 	z.x = re;
 	z.y = im;
 	iter = 0;
-	n = 2048;
 	double d = 0;
 	while (iter < n && fabs(c) < 4)
 	{
@@ -75,48 +73,54 @@ int iterZ(double re, double im)
 	c = ((double)255 / n);
 	r = c * iter;
 	g = (255 - (c * iter));
-	b = fabs((c * iter) - 255);
+	b = (c * iter);
 	//return(iter);
-	return (rgba(r, g, b ,0));
+	return (rgba(255-b, 255-b, 255-b ,0));
 }
 
-int		main(void)
+void draw_mandelbort(t_window *win)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img_ptr[2];
-	int		*img[2];
-	int		bpp;
-	int		size_line;
-	int		endian;
-	int		iter;
-	
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, Cw, Ch, "hop");
-	img_ptr[0] = mlx_new_image(mlx_ptr, Cw, Ch);
-	img[0] = (int*)mlx_get_data_addr(img_ptr[0], &bpp, &size_line, &endian);
-	iter = iterZ(-0.1, 0.1);
-	iter = iterZ(-2, 1);
 	double im = VyMax;
 	double re = VxMin;
 	double dVh = (VyMax - VyMin) / Ch;
 	double dVw = (VxMax - VxMin) / Cw;
 	int		x,y;
+	int		iter;
 	while (im >= VyMin)
 	{
 		re = VxMin;
 		while (re <= VxMax)
 		{
-			iter = iterZ(re, im);
+			iter = iterZ(re, im, win->iter);
 			x = (re - VxMin) / dVw;
 			y = (VyMax - im) / dVh;
-			uput_pixel(img[0], x, y, iter);
+			uput_pixel(win->img[0], x, y, iter);
 			re += dVw;
 		}
 		im -= dVh;
 	}
+}
 
-	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr[0], 0, 0);
-	mlx_loop(mlx_ptr);
+int		main(void)
+{
+	t_window	win;
+	
+	
+	win.mlx_ptr = mlx_init();
+	win.win_ptr = mlx_new_window(win.mlx_ptr, Cw, Ch, "hop");
+	win.img_ptr[0] = mlx_new_image(win.mlx_ptr, Cw, Ch);
+	win.img[0] = (int*)mlx_get_data_addr(win.img_ptr[0], &win.bpp, &win.size_line, &win.endian);
+	win.img_ptr[1] = mlx_new_image(win.mlx_ptr, Cw, Ch);
+	win.img[1] = (int*)mlx_get_data_addr(win.img_ptr[1], &win.bpp, &win.size_line, &win.endian);
+	win.iter = 5;
+	win.btn_d = 0;
+	draw_mandelbort(&win);
+
+	mlx_put_image_to_window(win.mlx_ptr, win.win_ptr, win.img_ptr, 0, 0);
+	mlx_hook(win.win_ptr, 4, (1L<<2), mouse_press, &win);
+	mlx_hook(win.win_ptr, 5, (1L<<3), mouse_release, &win);
+    mlx_hook(win.win_ptr, 6, (1L<<13), mouse_move, &win);
+	mlx_hook(win.win_ptr, 2, 1, key_press, &win);
+	mlx_loop(win.mlx_ptr);
 	return (0);
 }
