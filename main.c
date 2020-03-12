@@ -6,7 +6,7 @@
 /*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:09:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/10 22:43:58 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/12 20:23:27 by ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int iterZ(double re, double im, int n)
 	g = (255 - (c * iter));
 	b = (c * iter);
 	//return(iter);
-	return (rgba(255-b, 255-b, 255-b ,0));
+	return (rgba(0, 0, b, 0));
 }
 
 void draw_mandelbort(t_window *win)
@@ -86,12 +86,17 @@ void draw_mandelbort(t_window *win)
 	double dVw = (VxMax - VxMin) / Cw;
 	int		x,y;
 	int		iter;
+
 	while (im >= VyMin)
 	{
 		re = VxMin;
 		while (re <= VxMax)
 		{
-			iter = iterZ(re, im, win->iter);
+			// iter = iterZ(re, im, win->iter);
+			if (hm(re, im) == 1)
+				iter = rgba(0,0,255,0);
+			else
+				iter = iterZ(re, im, win->iter);
 			x = (re - VxMin) / dVw;
 			y = (VyMax - im) / dVh;
 			uput_pixel(win->img[0], x, y, iter);

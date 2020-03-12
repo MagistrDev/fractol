@@ -6,7 +6,7 @@
 /*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:14:17 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/10 22:43:36 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/12 20:02:15 by ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int				mouse_press(int button, int x, int y, void *param);
 int				mouse_release(int button, int x, int y, void *param);
 void			uput_pixel(int *img, int x, int y, int color);
 void			put_pixel(int *img, int x, int y, int color);
+int				hm(double x, double y);
 
 #endif
