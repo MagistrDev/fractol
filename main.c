@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:09:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/12 20:23:27 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/14 22:43:20 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <limits.h>
 
 #define W 1920
 #define H 1080
@@ -87,6 +88,9 @@ void draw_mandelbort(t_window *win)
 	int		x,y;
 	int		iter;
 
+
+	if (dVw == 0)
+		printf("Zero\n");
 	while (im >= VyMin)
 	{
 		re = VxMin;
@@ -99,6 +103,12 @@ void draw_mandelbort(t_window *win)
 				iter = iterZ(re, im, win->iter);
 			x = (re - VxMin) / dVw;
 			y = (VyMax - im) / dVh;
+			
+				// if (((re - VxMin) / dVw) == (re - VxMin) / dVw * )
+				// {
+				// 	x = 0;
+				// 	iter = rgba(255,0,0,0);
+				// }
 			uput_pixel(win->img[0], x, y, iter);
 			re += dVw;
 		}
