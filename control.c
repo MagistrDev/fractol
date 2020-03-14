@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 19:33:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/12 21:18:17 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/14 22:20:08 by jblack-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
+int x_shift, y_shift = 0;
 extern int Cw, Ch;
 double VxMin, VxMax, VyMin, VyMax;
 
@@ -62,8 +62,42 @@ int		key_press(int key, t_window *win)
 	(void)win;
 	if (key == ESC)
 		exit(0);
+	printf("Key is pressed %d\n", key);
+	double dVh = (VyMax - VyMin) / Ch;
+	double dVw = (VxMax - VxMin) / Cw;
+	
+
+	if (key == 124)
+	{
+		x_shift++;
+		VxMax += x_shift * dVw;
+		VxMin +=  x_shift * dVw;
+	}
+	if (key == 123)
+	{
+		x_shift--;
+		VxMax -= x_shift * dVw;
+		VxMin -=  x_shift * dVw;
+		
+	}
+	if (key == 126)
+	{
+		y_shift++;
+		VyMax +=  y_shift * dVh;
+		VyMin +=  y_shift * dVh;
+	}
+	if (key == 125)
+	{
+		y_shift--;
+		VyMax -=  y_shift * dVh;
+		VyMin -=  y_shift * dVh;
+	}
+	
+
 	if (key == SPACE)
 	{
+		double dVh = (VyMax - VyMin) / Ch;
+		double dVw = (VxMax - VxMin) / Cw;
 		// int z = 50;
 		// double hh = z /((double)Cw / Ch);
 		// int	pstW = Cw/2;
@@ -72,11 +106,12 @@ int		key_press(int key, t_window *win)
 		//x + Cw / 2 - z // xmax
 		// y - Ch / 2 + hh // ymax
 		// y + Ch / 2 - hh //ymin
-		double xx = ,yy;
-		VxMax -= fabs(0.02*VxMax);
-		VxMin += fabs(0.02*VxMin);
-		VyMax -= fabs(0.02*VyMax);
-		VxMin += fabs(0.02*VyMax);
+		//double xx = ,yy;
+		VxMax -= dVw * 60;
+		VxMin += dVw * 60;
+
+		VyMax -= dVh * 50;
+		VyMin += dVh * 50;
 	}
  	if (key == PLUS)
 	{
@@ -127,25 +162,24 @@ int mouse_press(int button, int x, int y, void *param)
 	double dVw = (VxMax - VxMin) / Cw;
 	(void)x;
 	(void)y;
-	int z = 50;
+	// int z = 50;
 	//double hh = z /((double)Cw / Ch);
-
 	win = (t_window*)param;
 	if ((x > 0 && x < Cw) && (y > 0 && y < Ch))
 	{
-		if (button == 4) // +
+		
+		if (button == 4) //+
 		{
-			double hh = z /((double)Cw / Ch);
-			int	pstW = Cw/2;
-			int	pstH = Ch/2;		
-			//int i = x - Cw/2 + 50; //xmin
-			//x + Cw / 2 - z // xmax
-			// y - Ch / 2 + hh // ymax
-			// y + Ch / 2 - hh //ymin
-			VyMax = x + pstW - z;
-			VxMin = x - pstW + 50;
-			VyMax = y - pstH + hh;
-			VyMin = y + pstH - hh;
+		// int z = 50;
+		// double hh = z /((double)Cw / Ch);
+		// int	pstW = Cw/2;
+		// int	pstH = Ch/2;		
+		//int i = x - Cw/2 + 50; //xmin
+		//x + Cw / 2 - z // xmax
+		// y - Ch / 2 + hh // ymax
+		// y + Ch / 2 - hh //ymin
+		//double xx = ,yy;
+		
 		}
  		if (button == 1) // +
 		{
@@ -184,8 +218,12 @@ int mouse_press(int button, int x, int y, void *param)
 			mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->img_ptr, 0, 0);
 		}
 	}
+		printf("draw\n");
+
 	write(1, "!",1);
 	printf("btn-%i x-%i y-%i\n",button, x, y);
+	draw_mandelbort(win);
+	mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->img_ptr[0], 0, 0);
 	return (0);
 }
 int mouse_release(int button, int x, int y, void *param)
