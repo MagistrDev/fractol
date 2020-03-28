@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Ecelsa <ecelsa@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:09:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/27 20:13:38 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/28 17:42:12 by Ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int Cw = 600, Ch = 600;
 
 double VxMin = -2, VxMax = 2;
 double VyMin = -2, VyMax = 2;
-
+int coef = 80;
+int bn(double n, double l, double r)
+{
+	return(n>l && n<=r);
+}
 
 void	uput_pixel(int *img, int x, int y, int color)
 {
@@ -74,12 +78,39 @@ int iterZ(double re, double im, int n)
 		z.x = d;
 		c = z.x - z.y;
 	}
-	c = ((double)255 / n);
+
+	double t = (double)iter / (double)n;
+	r = (int)(9 * (1 - t) * pow(t, 3) * 255);
+	g = (int)(15 * pow((1 - t), 2) * pow(t, 2) * 255);
+	b = (int)(8.5 * pow((1 - t), 4) * t * 255);
+	return (rgba(r,g,b,0));
+	/*int col;
+	if (bn(с,0,7))
+		col = rgba(coef*с,0,0,0);
+	else if (bn(c,7,14))
+		col = rgba(coef*c,coef*c,0,0);
+	else if (bn(c,14,21))
+		col = rgba(coef*c,0,coef*c,0);
+	else if (bn(c,21,28))
+		col = rgba(0,coef*c,0,0);
+	else if (bn(c,28,35))
+		col = rgba(coef*c,coef*c,0,0);
+	else if (bn(c,35,42))
+		col = rgba(0,coef*c,coef*c,0);
+	else if (bn(c,42,49))
+		col = rgba(0,0,coef*c,0);
+	else if (bn(c,49,56))
+		col = rgba(coef*c,0,coef*c,0);
+	else if (bn(c,56,64))
+		col = rgba(0,coef*c,coef*c,0);
+	else col = 0;
+	return (col);*/
+	/*c = ((double)255 / n);
 	r = c * iter;
 	g = (255 - (c * iter));
 	b = (c * iter);
 	//return(iter);
-	return (rgba(0, 0, b, 0));
+	return (rgba(0, 0, b, 0));*/
 }
 
 void draw_mandelbort(t_window *win)
@@ -101,7 +132,7 @@ void draw_mandelbort(t_window *win)
 		{
 			// iter = iterZ(re, im, win->iter);
 			if (hm(re, im) == 1)
-				iter = rgba(0,0,255,0);
+				iter = rgba(0,0,0,0);
 			else
 				iter = iterZ(re, im, win->iter);
 			x = (re - VxMin) / dVw;

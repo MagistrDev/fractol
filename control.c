@@ -6,7 +6,7 @@
 /*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 19:33:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/27 20:15:27 by ecelsa           ###   ########.fr       */
+/*   Updated: 2020/03/28 14:52:53 by ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void line(int x0, int x1, int y0, int y1, int *img)
 int		key_press(int key, t_window *win)
 {
 	// double dVh = (VyMax - VyMin) / Ch;
-	// double dVw = (VxMax - VxMin) / Cw;
+	// double dVw = (VxMax - VxMin) / Cw
 	// double mem;
 	(void)win;
 	if (key == ESC)
