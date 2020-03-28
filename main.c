@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jblack-b <jblack-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecelsa <ecelsa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 00:09:46 by ecelsa            #+#    #+#             */
-/*   Updated: 2020/03/14 22:43:20 by jblack-b         ###   ########.fr       */
+/*   Updated: 2020/03/27 20:13:38 by ecelsa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <limits.h>
 
-#define W 1920
-#define H 1080
+#define W 600
+#define H 600
 
-int Cw = 1920, Ch = 1080;
+int Cw = 600, Ch = 600;
 // double VxMin = -0.15, VxMax = 0.05;
 // double VyMin = 0.85, VyMax = 0.93;
 
-double VxMin = -2, VxMax = 1;
-double VyMin = -1, VyMax = 1;
+double VxMin = -2, VxMax = 2;
+double VyMin = -2, VyMax = 2;
 
 
 void	uput_pixel(int *img, int x, int y, int color)
@@ -62,6 +62,9 @@ int iterZ(double re, double im, int n)
 	z.x = re;
 	z.y = im;
 	iter = 0;
+	(void)r;
+	(void)g;
+	(void)b;
 	double d = 0;
 	while (iter < n && fabs(c) < 4)
 	{
@@ -131,7 +134,7 @@ int		main(void)
 	win.btn_d = 0;
 	draw_mandelbort(&win);
 
-	mlx_put_image_to_window(win.mlx_ptr, win.win_ptr, win.img_ptr, 0, 0);
+	//mlx_put_image_to_window(win.mlx_ptr, win.win_ptr, win.img_ptr, 0, 0);
 	mlx_hook(win.win_ptr, 4, (1L<<2), mouse_press, &win);
 	mlx_hook(win.win_ptr, 5, (1L<<3), mouse_release, &win);
     mlx_hook(win.win_ptr, 6, (1L<<13), mouse_move, &win);

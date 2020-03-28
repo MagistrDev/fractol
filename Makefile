@@ -1,3 +1,5 @@
+OS=$(exec uname)
+
 NAME = fractol
 
 CC = gcc
@@ -12,13 +14,17 @@ LIB_DIR = -L./libft
 
 SRCS = main.c sub.c control.c
 
-MINILIBX = -L/usr/local/lib/ -I/usr/local/include -framework OpenGL -framework AppKit -lmlx
+#ifeq "$OS" "Linux"
+	MINILIBX = -L./minilibxX11/ -I./minilibxX11/ -lmlx -lXext -lX11 
+#else
+#	MINILIBX = -L/usr/local/lib/ -I/usr/local/include -framework OpenGL -framework AppKit -lmlx
+#endif
 
 all: $(NAME)
 
 $(NAME): $(SRCS:.c=.o)
 	make -C libft/
-	$(CC) $(FLAGS) $(SRCS:.c=.o) $(LIB_DIR) $(INCLUDES) $(MINILIBX)  $(LIBS) -o $(NAME)
+	$(CC) -I./minilibxX11/mlx.h $(FLAGS) $(SRCS:.c=.o) $(LIB_DIR) $(INCLUDES) $(MINILIBX)  $(LIBS) -o $(NAME)
 
 %.o : %.c
 	$(CC) -c $(FLAGS) $< $(INCLUDES) -o $@
